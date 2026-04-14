@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import pickle
 from model_handler import laod_my_model, make_prediction
+from rabbit_utils import send_to_queue
 
 app = Flask(__name__)
 
@@ -15,6 +16,18 @@ def predict():
         return jsonify({'prediction': prediction, 'probability': proba})
     except Exception as e:
         return jsonify({'error':str(e)}),400
+    
+@app.route("/predict_rabbit", methods=["POST"])
+def predict_with_queue():
+    data = request.get_json()
+    send_to_queue({
+        "features": data["features"]
+    })
+
+    return jsonify(
+        {'status':"очередт отработала"}
+    )
+
 
 @app.route('/health', methods=['GET'])
 def health():
