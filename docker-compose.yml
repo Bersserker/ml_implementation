@@ -1,0 +1,65 @@
+version: '3.8'
+
+ 
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: ml-api
+    ports:
+      - "5000:5000"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      PYTHONUNBUFFERED: 1
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: appuser
+      RABBIT_PASSWORD: apppass
+      QUEUE_NAME: predictions
+      Y_QUEUE_NAME: prediction_results
+      API_PORT: 5000
+    networks:
+      - ml-network
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.model_worker
+    container_name: ml-worker
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      PYTHONUNBUFFERED: 1
+      RABBIT_HOST: rabbitmq
+      RABBIT_USER: appuser
+      RABBIT_PASSWORD: apppass
+      QUEUE_NAME: predictions
+      Y_QUEUE_NAME: prediction_results
+    networks:
+      - ml-network
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: appuser
+      RABBITMQ_DEFAULT_PASS: apppass
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ml-network
+
+networks:
+  ml-network:
+    driver: bridge
