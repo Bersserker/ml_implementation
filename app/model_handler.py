@@ -5,7 +5,7 @@ print('Загрузка модели')
 
 model = None
 
-def laod_my_model():
+def load_my_model():
     global model
     if model is None:
         model = joblib.load('models/model_v1.pkl')

@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
-from model_handler import laod_my_model, make_prediction
+from model_handler import load_my_model, make_prediction
 from rabbit_utils import send_to_queue
 
 app = Flask(__name__)
 
-my_model = laod_my_model()
+my_model = load_my_model()
 
 @app.route('/predict', methods=['POST'])
 def predict():

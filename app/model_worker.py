@@ -1,7 +1,7 @@
 import json
 import pika
 from rabbit_utils import send_to_y_pred
-from model_handler import laod_my_model, make_prediction
+from model_handler import load_my_model, make_prediction
 import os
 
 predictions = os.getenv("QUEUE_NAME", "predictions")
@@ -10,7 +10,7 @@ host = os.getenv("RABBIT_HOST", "localhost")
 user = os.getenv("RABBIT_USER", "guest")
 password = os.getenv("RABBIT_PASSWORD", "guest")
 
-model = laod_my_model()
+model = load_my_model()
 
 def callback(ch, method, properties, body):
     message = json.loads(body)

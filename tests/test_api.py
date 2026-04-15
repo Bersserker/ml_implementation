@@ -14,7 +14,7 @@ def test_my_api(line):
     test_sample = df.iloc[line].tolist()
     test_sample = {'features':test_sample}
     resp = requests.post("http://0.0.0.0:5000/predict", json = test_sample, headers= header)
-
+    print(test_sample)
     print(resp.status_code)
     print(resp.json())
 
