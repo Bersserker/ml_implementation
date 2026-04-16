@@ -24,6 +24,29 @@ docker compose down
 ### Проверка
 docker compose images
 
+## форммат запроса health
+curl http://localhost:5000/health
+## Ответ
+{
+  "status": "ready_to_predict"
+}
+# Синхронный запрос
+ curl -X POST http://localhost:5000/predict \
+-H "Content-Type: application/json" \
+-d '{"features": [90000.0, 2.0, 2.0, 2.0, 34.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 29239.0, 14027.0, 13559.0, 14331.0, 14948.0, 15549.0, 1518.0, 1500.0, 1000.0, 1000.0, 1000.0, 5000.0]}'
+
+# RabbitMQ асинхронный запрос
+curl -X POST http://localhost:5000/predict_rabbit \
+-H "Content-Type: application/json" \
+-d '{"features": [90000.0, 2.0, 2.0, 2.0, 34.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 29239.0, 14027.0, 13559.0, 14331.0, 14948.0, 15549.0, 1518.0, 1500.0, 1000.0, 1000.0, 1000.0, 5000.0]}'
+
+
+# Формат ответа (успех):
+       {
+           "prediction": 1,           
+           "probability": 0.92       
+       }
+
 ## Структура проекта
     1 Папка app/
            app/app.py — точка входа, инициализация приложения на Flask
