@@ -3,6 +3,27 @@
 ### Ссылка на docker hub
 https://hub.docker.com/repository/docker/bersserkerus/ml_implementation/general
 
+## Запуск локально
+pip install -r requirements.txt
+sudo systemctl start rabbitmq-server
+sudo systemctl status rabbitmq-server
+### Запуск API
+python api.py
+### Адрес
+http://localhost:5000
+### worker
+python model_worker.py
+
+## Запуск в Docker
+### Сборка
+docker compose build
+### Запуск
+docker compose up
+### Остановка
+docker compose down
+### Проверка
+docker compose images
+
 ## Структура проекта
     1 Папка app/
            app/app.py — точка входа, инициализация приложения на Flask
