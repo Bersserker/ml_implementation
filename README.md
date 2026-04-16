@@ -50,6 +50,10 @@ curl -X POST http://localhost:5000/predict_rabbit \
            "probability": 0.92       
        }
 
+Логи работы
+![alt text](image.png)
+![alt text](image-1.png)
+
 ## Структура проекта
     1 Папка app/
            app/app.py — точка входа, инициализация приложения на Flask
