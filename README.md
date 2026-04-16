@@ -5,8 +5,11 @@ https://hub.docker.com/repository/docker/bersserkerus/ml_implementation/general
 
 ## Запуск локально
 pip install -r requirements.txt
+
 sudo systemctl start rabbitmq-server
+
 sudo systemctl status rabbitmq-server
+
 ### Запуск API
 python api.py
 ### Адрес
